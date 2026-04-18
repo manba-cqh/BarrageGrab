@@ -153,9 +153,22 @@ namespace BarrageGrab.GrabServices
 
         public void Start(string liveId)
         {
-            LiveId = liveId;
+            Stop();
+            ResetRoomContext();
+            LiveId = liveId ?? string.Empty;
 
             this.ConnectWss();
+        }
+
+        /// <summary>
+        /// 切换直播间时清空缓存的 ttwid / roomId / wss，否则会沿用上一场直播的上下文。
+        /// </summary>
+        private void ResetRoomContext()
+        {
+            _ttwid = string.Empty;
+            _roomid = string.Empty;
+            _wss = string.Empty;
+            UserUniqueId = null;
         }
 
         public void Stop()

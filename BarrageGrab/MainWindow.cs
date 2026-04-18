@@ -66,9 +66,7 @@ namespace BarrageGrab
 
         private void btnGrab_Click(object sender, EventArgs e)
         {
-            object? tag = this.btnGrab.Tag;
-
-            if (tag == null || "start".Equals(tag.ToString()?.ToLower()))
+            if (!IsGrabRunning())
             {
                 string liveUrl = this.txtLiveUrl.Text.Trim();
                 if (string.IsNullOrEmpty(liveUrl))
@@ -77,22 +75,80 @@ namespace BarrageGrab
                     return;
                 }
 
-                ApplicationRuntime.BarrageGrabService?.Start(liveUrl);
-
-
-                this.txtLiveUrl.Enabled = false;
-                this.btnGrab.Text = "停止";
-                this.btnGrab.Tag = "Stop";
+                StartGrabInteractive(liveUrl);
             }
             else
             {
-                ApplicationRuntime.BarrageGrabService?.Stop();
+                StopGrabInteractive();
+            }
+        }
 
-                this.txtLiveUrl.Enabled = true;
-                this.btnGrab.Text = "开始";
-                this.btnGrab.Tag = "Start";
+        /// <summary>
+        /// 当前是否处于抓取中（与「开始/停止」按钮状态一致）。
+        /// </summary>
+        internal bool IsGrabRunning()
+        {
+            return "stop".Equals(this.btnGrab.Tag?.ToString(), StringComparison.OrdinalIgnoreCase);
+        }
+
+        internal void StopGrabInteractive()
+        {
+            ApplicationRuntime.BarrageGrabService?.Stop();
+            this.txtLiveUrl.Enabled = true;
+            this.btnGrab.Text = "开始";
+            this.btnGrab.Tag = "Start";
+        }
+
+        internal void StartGrabInteractive(string liveIdOrUrl)
+        {
+            ApplicationRuntime.BarrageGrabService?.Start(liveIdOrUrl);
+            this.txtLiveUrl.Enabled = false;
+            this.btnGrab.Text = "停止";
+            this.btnGrab.Tag = "Stop";
+        }
+
+        /// <summary>
+        /// Client 经 WebSocket 下发抓取配置：同步主窗体平台、LiveId，若已在抓取则先停再起。
+        /// </summary>
+        internal void ApplyRemoteGrabConfigFromClient(string liveIdForService, string liveDisplayText, PlatformTypeEnum platform)
+        {
+            SelectPlatformRadio(platform);
+            this.txtLiveUrl.Text = string.IsNullOrWhiteSpace(liveDisplayText) ? liveIdForService : liveDisplayText.Trim();
+
+            if (IsGrabRunning())
+            {
+                StopGrabInteractive();
             }
 
+            StartGrabInteractive(liveIdForService);
+            ApplicationRuntime.LivePlatform = platform;
+        }
+
+        private void SelectPlatformRadio(PlatformTypeEnum platform)
+        {
+            foreach (var rb in new[] { radio_douyin, radio_kuaishou, radio_bilibili, radio_douyu, radio_acfun, radio_tiktok, radio_huya })
+            {
+                rb.Checked = false;
+            }
+
+            switch (platform)
+            {
+                case PlatformTypeEnum.Douyin:
+                    radio_douyin.Checked = true;
+                    break;
+                case PlatformTypeEnum.Kuaishou:
+                    radio_kuaishou.Checked = true;
+                    break;
+                case PlatformTypeEnum.Bilibili:
+                    radio_bilibili.Checked = true;
+                    break;
+                case PlatformTypeEnum.Tiktok:
+                    radio_tiktok.Checked = true;
+                    break;
+                default:
+                    radio_douyin.Checked = true;
+                    break;
+            }
         }
 
 

@@ -12,10 +12,11 @@ namespace BarrageGrab
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
 
-            //×¢²á·şÎñ
+            //æ³¨å†ŒæœåŠ¡
             ServiceRegistrar.BuildServices();
 
-            //ÔËĞĞÖ÷´°Ìå
+            //è¿è¡Œä¸»çª—ä½“
+            //è¿è¡Œä¸»çª—ä½“
             Application.Run(ApplicationRuntime.MainForm);
         }
     }

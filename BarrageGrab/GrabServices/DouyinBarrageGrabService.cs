@@ -292,7 +292,7 @@ namespace BarrageGrab.GrabServices
 
                                             ApplicationRuntime.LocalWebSocketServer?.Broadcast(JsonConvert.SerializeObject(obm));
 
-                                            ApplicationRuntime.MainForm?.PrintConsole($"[进入]{memberMsg.User.NickName} 来了");
+                                            ApplicationRuntime.PrintLog($"[进入]{memberMsg.User.NickName} 来了");
 
                                             break;
                                         }
@@ -321,7 +321,7 @@ namespace BarrageGrab.GrabServices
 
                                                 ApplicationRuntime.LocalWebSocketServer?.Broadcast(JsonConvert.SerializeObject(obm));
 
-                                                ApplicationRuntime.MainForm?.PrintConsole($"[分享]{socialMessage.User.NickName} 分享了直播间到{socialMessage.ShareTarget}");
+                                                ApplicationRuntime.PrintLog($"[分享]{socialMessage.User.NickName} 分享了直播间到{socialMessage.ShareTarget}");
                                             }
                                             #endregion
 
@@ -342,7 +342,7 @@ namespace BarrageGrab.GrabServices
 
                                                 ApplicationRuntime.LocalWebSocketServer?.Broadcast(JsonConvert.SerializeObject(obm));
 
-                                                ApplicationRuntime.MainForm?.PrintConsole($"[关注]{socialMessage.User.NickName} 关注了主播");
+                                                ApplicationRuntime.PrintLog($"[关注]{socialMessage.User.NickName} 关注了主播");
                                             }
                                             #endregion
 
@@ -369,7 +369,7 @@ namespace BarrageGrab.GrabServices
 
                                             ApplicationRuntime.LocalWebSocketServer?.Broadcast(JsonConvert.SerializeObject(obm));
 
-                                            ApplicationRuntime.MainForm?.PrintConsole($"[弹幕]{chatMessage.User.NickName} 说 {chatMessage.Content}");
+                                            ApplicationRuntime.PrintLog($"[弹幕]{chatMessage.User.NickName} 说 {chatMessage.Content}");
 
                                             break;
                                         }
@@ -396,7 +396,7 @@ namespace BarrageGrab.GrabServices
 
                                             ApplicationRuntime.LocalWebSocketServer?.Broadcast(JsonConvert.SerializeObject(obm));
 
-                                            ApplicationRuntime.MainForm?.PrintConsole($"[点赞]{likeMessage.User.NickName} 点了 {likeMessage.Count.ToString()} 个赞");
+                                            ApplicationRuntime.PrintLog($"[点赞]{likeMessage.User.NickName} 点了 {likeMessage.Count.ToString()} 个赞");
 
                                             break;
                                         }
@@ -430,7 +430,7 @@ namespace BarrageGrab.GrabServices
 
                                             ApplicationRuntime.LocalWebSocketServer?.Broadcast(JsonConvert.SerializeObject(obm));
 
-                                            ApplicationRuntime.MainForm?.PrintConsole($"[礼物]{giftMessage.User.NickName} 送出 {giftMessage.RepeatCount.ToString()} 个 {giftMessage.Gift.Name}");
+                                            ApplicationRuntime.PrintLog($"[礼物]{giftMessage.User.NickName} 送出 {giftMessage.RepeatCount.ToString()} 个 {giftMessage.Gift.Name}");
 
                                             break;
                                         }
@@ -459,7 +459,7 @@ namespace BarrageGrab.GrabServices
 
                                             ApplicationRuntime.LocalWebSocketServer?.Broadcast(JsonConvert.SerializeObject(obm));
 
-                                            ApplicationRuntime.MainForm?.PrintConsole($"[人气统计]当前直播间人数 {roomUserSeqMessage.OnlineUserForAnchor}，累计直播间人数 {roomUserSeqMessage.TotalPvForAnchor}");
+                                            ApplicationRuntime.PrintLog($"[人气统计]当前直播间人数 {roomUserSeqMessage.OnlineUserForAnchor}，累计直播间人数 {roomUserSeqMessage.TotalPvForAnchor}");
 
                                             break;
                                         }
@@ -484,7 +484,7 @@ namespace BarrageGrab.GrabServices
 
                                             ApplicationRuntime.LocalWebSocketServer?.Broadcast(JsonConvert.SerializeObject(obm));
 
-                                            ApplicationRuntime.MainForm?.PrintConsole($"[系统]当前直播已结束");
+                                            ApplicationRuntime.PrintLog($"[系统]当前直播已结束");
 
                                             break;
                                         }
@@ -517,7 +517,7 @@ namespace BarrageGrab.GrabServices
 
                                             ApplicationRuntime.LocalWebSocketServer?.Broadcast(JsonConvert.SerializeObject(obm));
 
-                                            ApplicationRuntime.MainForm?.PrintConsole($"[粉丝团]{fansclubMessage.User.NickName} 加入了主播粉丝团");
+                                            ApplicationRuntime.PrintLog($"[粉丝团]{fansclubMessage.User.NickName} 加入了主播粉丝团");
 
                                             break;
                                         }
@@ -544,7 +544,7 @@ namespace BarrageGrab.GrabServices
                 {
                     OnError?.Invoke(clientWebSocket, EventArgs.Empty);
 
-                    ApplicationRuntime.MainWindow?.PrintConsole($"[异常]{ex.Message}");
+                    ApplicationRuntime.PrintLog($"[异常]{ex.Message}");
 
                     // do something
                     throw new Exception(ex.Message);

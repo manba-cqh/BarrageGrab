@@ -46,6 +46,45 @@ namespace BarrageGrab
         /// </summary>
         internal static PlatformTypeEnum? LivePlatform;
 
+        internal static void PrintLog(string message)
+        {
+            if (string.IsNullOrWhiteSpace(message))
+            {
+                return;
+            }
+
+            try
+            {
+                Console.WriteLine(message);
+            }
+            catch
+            {
+                // ignore console output errors
+            }
+
+            var mw = MainWindow;
+            if (mw == null || mw.IsDisposed)
+            {
+                return;
+            }
+
+            try
+            {
+                if (mw.InvokeRequired)
+                {
+                    mw.BeginInvoke(new Action(() => mw.PrintConsole(message)));
+                }
+                else
+                {
+                    mw.PrintConsole(message);
+                }
+            }
+            catch
+            {
+                // ignore ui output errors
+            }
+        }
+
 
     }
 }
